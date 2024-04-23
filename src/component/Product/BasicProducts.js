@@ -1,4 +1,4 @@
-import { getItems } from "../../Api.js";
+import { getItems } from "../../api/Api.js";
 import Select from "react-select";
 import { useState, useEffect, React } from "react";
 import ProductList from "./ProductList.js";
