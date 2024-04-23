@@ -148,6 +148,9 @@
 .FileInput {
   margin-bottom: 20px;
 }
+.FileInput label {
+  display: inline-block;
+}
 .preview_area {
   width: 282px;
   height: 282px;
