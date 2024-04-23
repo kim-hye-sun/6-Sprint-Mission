@@ -46,9 +46,9 @@ function BasicProducts() {
     setPage(1);
   };
 
+  //하하 히히 왜 getItems
   const productsLoad = async (orderBy, page) => {
-    const { list } = await getItems({ orderBy, page });
-    const { totalCount } = await getItems({ pageSize: 12 });
+    const { list, totalCount } = await getItems({ orderBy, page });
     setTotalCount(totalCount);
     setItems(list);
   };
