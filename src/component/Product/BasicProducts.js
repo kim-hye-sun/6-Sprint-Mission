@@ -56,7 +56,7 @@ function BasicProducts() {
       <div className="basic-product-header">
         <h2>전체 상품</h2>
         <input placeholder="검색할 상품을 입력해주세요" />
-        <Link to="/addItem">
+        <Link to="/Product/addItem">
           <button>상품 등록하기</button>
         </Link>
         <div className="selectBox">
