@@ -7,14 +7,6 @@
 .boardListHeader h3 {
   margin-bottom: 0;
 }
-.boardListHeader button {
-  background-color: #3692ff;
-  padding: 12px 23px;
-  border-radius: 8px;
-  font-size: 16px;
-  color: #fff;
-  border: none;
-}
 .boardListSearch {
   display: flex;
   justify-content: space-between;

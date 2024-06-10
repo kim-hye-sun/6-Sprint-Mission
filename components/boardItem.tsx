@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { IBoard } from "../@types";
 import styles from "../styles/boardItem.module.css";
+import Link from "next/link";
 
 export default function BoardItem({ board }: { board: IBoard }) {
   const createdAt = board.createdAt.split("T");

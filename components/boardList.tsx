@@ -1,10 +1,11 @@
 "use client";
-import { getBoards } from "@/app/api/getBoard";
+import { getBoardList } from "@/app/api/board";
 import styles from "@/styles/boardList.module.css";
 import BoardItem from "./boardItem";
 import { IBoard } from "@/@types";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function BoardList() {
   const [boards, setBoards] = useState<IBoard[]>([]);
@@ -28,7 +29,7 @@ export default function BoardList() {
   }, [order, search]);
 
   const fetchBoard = async (order: string, search: string) => {
-    const fetchedboard = await getBoards({
+    const fetchedboard = await getBoardList({
       page: 1,
       pageSize: 10000,
       orderBy: order,
@@ -41,7 +42,9 @@ export default function BoardList() {
     <div>
       <div className={styles.boardListHeader}>
         <h3>게시글</h3>
-        <button type="button">글쓰기</button>
+        <Link href="/addBoard" className="primaryBtn">
+          글쓰기
+        </Link>
       </div>
       <div className={styles.boardListSearch}>
         <div className={styles.search}>
@@ -68,7 +71,11 @@ export default function BoardList() {
       </div>
       <div className={styles.boardListContents}>
         {boards.map((board) => {
-          return <BoardItem key={board.id} board={board} />;
+          return (
+            <Link key={board.id} href={`/board/${board.id}`} prefetch>
+              <BoardItem board={board} />
+            </Link>
+          );
         })}
       </div>
     </div>
