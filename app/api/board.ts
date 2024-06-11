@@ -128,3 +128,69 @@ export async function getBoardItem(id: string): Promise<IBoardDetail> {
     return {} as IBoardDetail;
   }
 }
+
+async function addLikeRequest(
+  id: number,
+  accessToken: string
+): Promise<Response> {
+  return fetch(`${API_URL}/articles/${id}/like`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+}
+
+export async function addLike(id: number): Promise<IBoardDetail> {
+  try {
+    let accessToken = await validateAndRefreshTokens();
+    let res = await addLikeRequest(id, accessToken);
+
+    if (res.status === 401) {
+      accessToken = await refreshAccessToken(
+        localStorage.getItem("refreshToken")!
+      );
+      res = await addLikeRequest(id, accessToken);
+    }
+
+    const json = await res.json();
+    return json;
+  } catch (e) {
+    console.log(e);
+    return {} as IBoardDetail;
+  }
+}
+
+async function deleteLikeRequest(
+  id: number,
+  accessToken: string
+): Promise<Response> {
+  return fetch(`${API_URL}/articles/${id}/like`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+}
+
+export async function deleteLike(id: number): Promise<IBoardDetail> {
+  try {
+    let accessToken = await validateAndRefreshTokens();
+    let res = await deleteLikeRequest(id, accessToken);
+
+    if (res.status === 401) {
+      accessToken = await refreshAccessToken(
+        localStorage.getItem("refreshToken")!
+      );
+      res = await deleteLikeRequest(id, accessToken);
+    }
+
+    const json = await res.json();
+    return json;
+  } catch (e) {
+    console.log(e);
+    return {} as IBoardDetail;
+  }
+}

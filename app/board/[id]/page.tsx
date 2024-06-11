@@ -1,6 +1,6 @@
 "use client";
 import { IBoardDetail } from "@/@types";
-import { getBoardItem } from "@/app/api/board";
+import { addLike, deleteLike, getBoardItem } from "@/app/api/board";
 import { useEffect, useState } from "react";
 import styles from "./boardDetail.module.css";
 import Image from "next/image";
@@ -25,6 +25,14 @@ export default function DetailBoard({ params }: { params: { id: string } }) {
 
   const createdAt = boardData.createdAt.split("T");
 
+  const handleAddLike = async () => {
+    const fetchedAddLike = await addLike(parseInt(params.id));
+    setBoardData(fetchedAddLike);
+  };
+  const handleDeleteLike = async () => {
+    const fetchedDeleteLike = await deleteLike(parseInt(params.id));
+    setBoardData(fetchedDeleteLike);
+  };
   return (
     <div className="container">
       <div className="borderBottom">
@@ -53,6 +61,8 @@ export default function DetailBoard({ params }: { params: { id: string } }) {
                 width={13}
                 height={12}
                 alt="like"
+                onClick={handleAddLike}
+                className={styles.likeBtn}
               />
             ) : (
               <Image
@@ -60,6 +70,8 @@ export default function DetailBoard({ params }: { params: { id: string } }) {
                 width={13}
                 height={12}
                 alt="like"
+                onClick={handleDeleteLike}
+                className={styles.likeBtn}
               />
             )}
 
