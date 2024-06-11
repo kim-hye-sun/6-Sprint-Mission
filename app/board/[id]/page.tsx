@@ -47,12 +47,22 @@ export default function DetailBoard({ params }: { params: { id: string } }) {
           <p className={styles.nickname}>{boardData.writer.nickname}</p>
           <p className={styles.date}>{createdAt[0]}</p>
           <div className={styles.like}>
-            <Image
-              src="/images/img_like.png"
-              width={13}
-              height={12}
-              alt="like"
-            />
+            {boardData.isLiked === false ? (
+              <Image
+                src="/images/img_like.png"
+                width={13}
+                height={12}
+                alt="like"
+              />
+            ) : (
+              <Image
+                src="/images/img_fillLike.png"
+                width={13}
+                height={12}
+                alt="like"
+              />
+            )}
+
             <p>{boardData.likeCount}</p>
           </div>
         </div>
