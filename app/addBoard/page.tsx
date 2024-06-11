@@ -1,7 +1,7 @@
 "use client";
 import styles from "./addBoard.module.css";
 import { addBoard, uploadImage } from "../api/board";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import FileInput from "@/components/fileInput";
 import { useRouter } from "next/navigation";
 
@@ -12,6 +12,9 @@ export default function AddBoard() {
 
   const titleErrMsg = document.querySelector(".titleEmpty");
   const contentErrMsg = document.querySelector(".contentEmpty");
+  useEffect(() => {
+    document.title = "판다마켓 | 자유게시판 게시글 등록";
+  }, []);
 
   //이제 formdata 안써야지.
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,12 +27,12 @@ export default function AddBoard() {
       }
 
       //필수 값인 title과 content에 값이 있는지 확인
-      const title = formData.get("title");
+      const FormTitle = formData.get("title");
       const content = formData.get("content");
 
       if (
-        !title ||
-        title.toString().trim() === "" ||
+        !FormTitle ||
+        FormTitle.toString().trim() === "" ||
         !content ||
         content.toString().trim() === ""
       ) {

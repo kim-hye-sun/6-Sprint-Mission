@@ -7,6 +7,8 @@ import Image from "next/image";
 import BoardComment from "@/components/boardCommentList";
 
 export default function DetailBoard({ params }: { params: { id: string } }) {
+  document.title = "판다마켓 | 자유게시판 상세 페이지";
+
   const [boardData, setBoardData] = useState<IBoardDetail | null>(null);
 
   useEffect(() => {
