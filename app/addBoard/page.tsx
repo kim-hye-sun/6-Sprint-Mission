@@ -10,8 +10,6 @@ export default function AddBoard() {
   const [image, setImage] = useState<File | null>(null);
   const router = useRouter();
 
-  const titleErrMsg = document.querySelector(".titleEmpty");
-  const contentErrMsg = document.querySelector(".contentEmpty");
   useEffect(() => {
     document.title = "판다마켓 | 자유게시판 게시글 등록";
   }, []);
