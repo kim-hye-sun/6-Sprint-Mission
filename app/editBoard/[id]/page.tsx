@@ -1,25 +1,32 @@
 "use client";
-import styles from "./addBoard.module.css";
-import { addBoard, uploadImage } from "../api/board";
+import styles from "../../addBoard/addBoard.module.css";
+import { editBoard, getBoardItem, uploadImage } from "../../api/board";
 import { useEffect, useRef, useState } from "react";
 import FileInput from "@/components/fileInput";
 import { useRouter } from "next/navigation";
+import { IBoardDetail } from "@/@types";
 
-export default function AddBoard() {
+export default function EditBoard({ params }: { params: { id: string } }) {
   const formRef = useRef<HTMLFormElement>(null);
   const [image, setImage] = useState<File | null>(null);
   const router = useRouter();
+  const [boardData, setBoardData] = useState<IBoardDetail | null>(null);
 
   useEffect(() => {
-    document.title = "판다마켓 | 자유게시판 게시글 등록";
-  }, []);
+    document.title = "판다마켓 | 자유게시판 게시글 수정";
+    const fetchBoardItem = async () => {
+      const fetchedBoardItem = await getBoardItem(params.id);
+      setBoardData(fetchedBoardItem);
+    };
+    fetchBoardItem();
+  }, [params.id]);
 
   //이제 formdata 안써야지.
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formRef.current) {
       const formData = new FormData(formRef.current);
-      if (image) {
+      if (typeof image === "object" && image) {
         const imageData = await uploadImage(image);
         formData.append("image", imageData);
       }
@@ -38,14 +45,26 @@ export default function AddBoard() {
         return;
       }
 
-      const postBoard = await addBoard(formData);
+      const postBoard = await editBoard(parseInt(params.id), formData);
 
       await router.push(`/board/${postBoard}`);
     }
   };
+
   const handleImageChange = (file: File | null) => {
     setImage(file);
   };
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const titleValue = e.target.value;
+    setBoardData((prevState) =>
+      prevState ? { ...prevState, title: titleValue } : null
+    );
+  };
+
+  if (!boardData) {
+    return;
+  }
 
   return (
     <div className="container">
@@ -61,7 +80,9 @@ export default function AddBoard() {
           <input
             type="text"
             name="title"
+            value={boardData.title}
             id="title"
+            onChange={handleTitleChange}
             placeholder="제목을 입력해주세요"
           />
         </label>
@@ -73,12 +94,17 @@ export default function AddBoard() {
             cols={30}
             rows={10}
             placeholder="내용을 입력해주세요"
-          />
+          >
+            {boardData.content && boardData.content}
+          </textarea>
         </label>
         <label htmlFor="image" className={styles.imgTitle}>
           이미지
         </label>
-        <FileInput onChange={handleImageChange} image={null} />
+        <FileInput
+          onChange={handleImageChange}
+          image={boardData.image !== undefined ? boardData.image : null}
+        />
       </form>
     </div>
   );

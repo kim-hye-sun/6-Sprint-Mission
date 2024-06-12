@@ -95,6 +95,44 @@ export async function addBoard(formData: FormData): Promise<string> {
   }
 }
 
+//게시글 등록 리퀘스트
+async function editBoardRequest(
+  id: number,
+  formData: FormData,
+  accessToken: string
+): Promise<Response> {
+  return fetch(`${API_URL}/articles/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify(Object.fromEntries(formData)),
+  });
+}
+
+//게시글 등록 API
+export async function editBoard(
+  id: number,
+  formData: FormData
+): Promise<string> {
+  try {
+    let accessToken = await validateAndRefreshTokens();
+    let res = await editBoardRequest(id, formData, accessToken);
+
+    if (res.status === 401) {
+      accessToken = await refreshAccessToken(
+        localStorage.getItem("refreshToken")!
+      );
+      res = await editBoardRequest(id, formData, accessToken);
+    }
+    const json = await res.json();
+    return json.id;
+  } catch (e) {
+    return "error";
+  }
+}
+
 async function getBoardItemRequest(
   id: string,
   accessToken: string
@@ -129,6 +167,7 @@ export async function getBoardItem(id: string): Promise<IBoardDetail> {
   }
 }
 
+//좋아요 추가 리퀘스트
 async function addLikeRequest(
   id: number,
   accessToken: string
@@ -142,6 +181,7 @@ async function addLikeRequest(
   });
 }
 
+//좋아요 추가 API
 export async function addLike(id: number): Promise<IBoardDetail> {
   try {
     let accessToken = await validateAndRefreshTokens();
@@ -162,6 +202,7 @@ export async function addLike(id: number): Promise<IBoardDetail> {
   }
 }
 
+//좋아요 해지 리퀘스트
 async function deleteLikeRequest(
   id: number,
   accessToken: string
@@ -175,6 +216,7 @@ async function deleteLikeRequest(
   });
 }
 
+//좋아요 해지 API
 export async function deleteLike(id: number): Promise<IBoardDetail> {
   try {
     let accessToken = await validateAndRefreshTokens();
@@ -192,5 +234,39 @@ export async function deleteLike(id: number): Promise<IBoardDetail> {
   } catch (e) {
     console.log(e);
     return {} as IBoardDetail;
+  }
+}
+
+async function deleteBoardRequest(
+  id: number,
+  accessToken: string
+): Promise<Response> {
+  return fetch(`${API_URL}/articles/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+}
+
+//게시글 삭제 API
+export async function deleteBoard(id: number): Promise<number> {
+  try {
+    let accessToken = await validateAndRefreshTokens();
+    let res = await deleteBoardRequest(id, accessToken);
+
+    if (res.status === 401) {
+      accessToken = await refreshAccessToken(
+        localStorage.getItem("refreshToken")!
+      );
+      res = await deleteBoardRequest(id, accessToken);
+    }
+
+    const json = await res.json();
+    return json;
+  } catch (e) {
+    console.log(e);
+    return 0;
   }
 }

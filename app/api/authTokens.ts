@@ -1,11 +1,19 @@
+import { IUser } from "@/@types";
 import { API_URL } from "../containts";
 
 // 토큰 저장 함수
-export function saveTokens(accessToken: string, refreshToken?: string) {
+export function saveTokens(
+  accessToken: string,
+  userid: string,
+  refreshToken?: string
+) {
   localStorage.setItem("accessToken", accessToken);
   if (refreshToken) {
     localStorage.setItem("refreshToken", refreshToken);
   }
+
+  //임시 유저 정보 저장
+  localStorage.setItem("userid", userid);
 }
 
 // 토큰 가져오기 함수
@@ -26,7 +34,8 @@ export async function refreshAccessToken(refreshToken: string) {
   });
   const data = await res.json();
   const { accessToken } = data;
-  saveTokens(accessToken);
+  const { id } = data.user.id;
+  saveTokens(accessToken, id);
   return accessToken;
 }
 
@@ -57,7 +66,8 @@ export async function getAccessToken() {
   const data = await res.json();
   const accessToken = data.accessToken;
   const refreshToken = data.refreshToken;
+  const userId = data.user.id;
 
   // 토큰 저장
-  saveTokens(accessToken, refreshToken);
+  saveTokens(accessToken, userId, refreshToken);
 }

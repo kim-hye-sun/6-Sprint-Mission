@@ -30,3 +30,8 @@ export interface IBoardComment {
     image?: string;
   };
 }
+
+export interface IUser {
+  id: number;
+  nickname: string;
+}
