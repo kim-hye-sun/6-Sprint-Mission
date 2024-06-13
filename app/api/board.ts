@@ -1,4 +1,4 @@
-import type { IBoard, IBoardComment, IBoardDetail } from "../../@types";
+import type { IBoard, IBoardDetail } from "../../@types";
 import { API_URL } from "../containts";
 import { validateAndRefreshTokens, refreshAccessToken } from "./authTokens";
 

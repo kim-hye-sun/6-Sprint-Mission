@@ -1,4 +1,3 @@
-import { IUser } from "@/@types";
 import { API_URL } from "../containts";
 
 // 토큰 저장 함수

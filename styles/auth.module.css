@@ -1,0 +1,11 @@
+.auth {
+  max-width: 640px;
+}
+.authLogo {
+  margin: 0 auto 40px;
+  display: block;
+}
+.submitBtn {
+  width: 100%;
+  border-radius: 50px;
+}

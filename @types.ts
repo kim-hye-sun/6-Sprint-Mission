@@ -32,6 +32,21 @@ export interface IBoardComment {
 }
 
 export interface IUser {
-  id: number;
+  accessToken: string;
+  refreshToken: string;
+  user: {
+    id: number;
+    email: string;
+    image?: string;
+    nickname: string;
+    updatedAt: string;
+    createdAt: string;
+  };
+}
+
+export interface ISignUpUser {
+  email: string;
   nickname: string;
+  password: string;
+  passwordConfirmation: string;
 }
