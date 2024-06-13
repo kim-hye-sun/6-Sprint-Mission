@@ -5,6 +5,7 @@ import { signUp } from "../api/auth";
 import { ISignUpUser } from "@/@types";
 import styles from "@/styles/auth.module.css";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function SignUp() {
   const {
@@ -37,6 +38,8 @@ export default function SignUp() {
   const onSubmit: SubmitHandler<ISignUpUser> = async (data) => {
     const successSignUp = await signUp(data);
     if (successSignUp.success) {
+      alert(successSignUp.message);
+    } else {
       alert(successSignUp.message);
     }
   };
@@ -147,6 +150,31 @@ export default function SignUp() {
           회원가입
         </button>
       </form>
+      <div className={styles.auth_sns}>
+        <p>간편 로그인하기</p>
+        <div className={styles.sns_area}>
+          <Link href="https://www.google.com/" target="_blank">
+            <Image
+              src="/images/ic_google.png"
+              alt="구글 로그인 아이콘"
+              width={42}
+              height={42}
+            />
+          </Link>
+          <Link href="https://www.kakaocorp.com/page" target="_blank">
+            <Image
+              src="/images/ic_kakao.png"
+              alt="카카오톡 로그인 아이콘"
+              width={42}
+              height={42}
+            />
+          </Link>
+        </div>
+      </div>
+      <div className={styles.auth_btm}>
+        <span>이미 회원이신가요?</span>
+        <a href="login.html">로그인</a>
+      </div>
     </div>
   );
 }

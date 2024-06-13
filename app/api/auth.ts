@@ -18,11 +18,19 @@ export async function signUp(data: ISignUpUser): Promise<SignUpResponse> {
       body: JSON.stringify(data),
     });
     const json = await res.json();
-    return {
-      success: true,
-      user: json,
-      message: "회원 가입이 성공적으로 완료되었습니다.",
-    };
+    if (res.status === 400) {
+      return {
+        success: true,
+        user: {} as IUser,
+        message: json.message,
+      };
+    } else {
+      return {
+        success: true,
+        user: json,
+        message: "회원 가입이 성공적으로 완료되었습니다.",
+      };
+    }
   } catch (e) {
     return {
       success: false,
