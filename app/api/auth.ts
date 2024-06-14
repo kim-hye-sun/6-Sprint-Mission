@@ -21,7 +21,7 @@ export async function signUp(data: ISignUpUser): Promise<SignUpResponse> {
     //동일한 이메일, 닉네임이 있을 경우
     if (res.status === 400) {
       return {
-        success: true,
+        success: false,
         message: json.message,
       };
     } else {

@@ -12,7 +12,7 @@ export default function SignIn() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
   } = useForm<ISignUpUser>({ mode: "onChange" });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -95,7 +95,7 @@ export default function SignIn() {
         </div>
         <button
           type="submit"
-          disabled={!isFormValid}
+          disabled={!isDirty || !isValid}
           className={`primaryBtn ${styles.submitBtn}`}
         >
           로그인

@@ -13,7 +13,7 @@ export default function SignUp() {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
   } = useForm<ISignUpUser>({ mode: "onChange" });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -21,7 +21,6 @@ export default function SignUp() {
     useState(false);
 
   const watchedPassword = watch("password");
-  const watchedPasswordConfirmation = watch("passwordConfirmation");
   const router = useRouter();
 
   const togglePasswordVisibility = (type: string) => {
@@ -31,11 +30,6 @@ export default function SignUp() {
       setShowPasswordConfirmation(!showPasswordConfirmation);
     }
   };
-
-  const isFormValid =
-    Object.keys(errors).length === 0 &&
-    watchedPassword !== "" &&
-    watchedPassword === watchedPasswordConfirmation;
 
   const onSubmit: SubmitHandler<ISignUpUser> = async (data) => {
     const successSignUp = await signUp(data);
@@ -96,6 +90,7 @@ export default function SignUp() {
                   value: 8,
                   message: "비밀번호를 8자 이상 입력해주세요",
                 },
+                required: true,
               })}
               className={errors.password ? "errInput" : ""}
             />
@@ -125,6 +120,7 @@ export default function SignUp() {
               {...register("passwordConfirmation", {
                 validate: (value) =>
                   value === watchedPassword || "비밀번호가 일치하지 않습니다.",
+                required: true,
               })}
               className={errors.passwordConfirmation ? "errInput" : ""}
             />
@@ -147,7 +143,7 @@ export default function SignUp() {
         </div>
         <button
           type="submit"
-          disabled={!isFormValid}
+          disabled={!isDirty || !isValid}
           className={`primaryBtn ${styles.submitBtn}`}
         >
           회원가입
