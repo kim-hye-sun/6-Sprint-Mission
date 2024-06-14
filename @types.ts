@@ -50,3 +50,8 @@ export interface ISignUpUser {
   password: string;
   passwordConfirmation: string;
 }
+
+export interface ISignInUser {
+  email: string;
+  password: string;
+}

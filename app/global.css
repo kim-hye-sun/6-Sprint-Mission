@@ -124,9 +124,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-body {
-  padding-top: 100px;
-}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -140,6 +138,19 @@ h3 {
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 24px;
+}
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+.nav {
+  display: flex;
+  gap: 40px;
+}
+.nav .active {
+  color: #3692ff;
+  font-weight: 600;
 }
 
 .primaryBtn {

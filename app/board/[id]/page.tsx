@@ -58,7 +58,7 @@ export default function DetailBoard({ params }: { params: { id: string } }) {
               {morePopup && (
                 <More
                   id={parseInt(params.id)}
-                  url={`/editBoard/${params.id}`}
+                  url={`/board/editBoard/${params.id}`}
                   funcName={deleteBoard}
                   redirectPageName="/board"
                 />

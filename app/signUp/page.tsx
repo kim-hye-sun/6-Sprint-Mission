@@ -6,6 +6,7 @@ import { ISignUpUser } from "@/@types";
 import styles from "@/styles/auth.module.css";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
   const {
@@ -21,6 +22,7 @@ export default function SignUp() {
 
   const watchedPassword = watch("password");
   const watchedPasswordConfirmation = watch("passwordConfirmation");
+  const router = useRouter();
 
   const togglePasswordVisibility = (type: string) => {
     if (type === "password") {
@@ -39,6 +41,7 @@ export default function SignUp() {
     const successSignUp = await signUp(data);
     if (successSignUp.success) {
       alert(successSignUp.message);
+      await router.push(`/signIn`);
     } else {
       alert(successSignUp.message);
     }
@@ -173,7 +176,7 @@ export default function SignUp() {
       </div>
       <div className={styles.auth_btm}>
         <span>이미 회원이신가요?</span>
-        <a href="login.html">로그인</a>
+        <Link href="/signIn">로그인</Link>
       </div>
     </div>
   );

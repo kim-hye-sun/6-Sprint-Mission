@@ -82,7 +82,7 @@ export default function BoardList() {
     <div>
       <div className={styles.boardListHeader}>
         <h3>게시글</h3>
-        <Link href="/addBoard" className="primaryBtn">
+        <Link href="/board/addBoard" className="primaryBtn">
           글쓰기
         </Link>
       </div>
